@@ -1,0 +1,34 @@
+on: 
+    pull_request: 
+        branches: dev
+    
+jobs:
+    check_pr_size:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                fetch-depth: 0
+            - id: get_total_lines_changed
+              run: |
+                size=$(git diff --stat origin/dev \
+                | grep -v .lock \
+                | grep -v Bin \
+                | awk -F"|" '{ print $2 }' \
+                | awk '{ print $1 }' \
+                | sed '/^$/d' \
+                | paste -sd+ - \
+                | bc)
+    
+                echo "size=${size}" >> $GITHUB_ENV
+                echo ""
+                echo "Total lines changed (note: *.lock files are excluded from this count): "
+                echo $size
+
+            - run: |
+                if [[ $size -gt 600 ]]
+                then
+                    echo "Warning - total lines changed is greater than" 600.
+                    echo "Please consider breaking this PR down."
+                    exit 1
+                fi
