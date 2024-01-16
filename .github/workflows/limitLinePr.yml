@@ -25,15 +25,17 @@ jobs:
                 echo "Total lines changed (note: *.lock files are excluded from this count): "
                 echo $size
 
-            - uses: actions/github-script@v6
-              with:
-                    script: |
-                       github.rest.issues.createComment({
-                          issue_number: context.issue.number,
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          body: ' #Thanks for reporting!\n\nThe total number of lines changed in this PR is **${{ env.size }}**.'
-                       })
+            - name: Add comment to PR
+              env:
+                  URL: ${{ github.event.issue.comments_url }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  curl \
+                    -X POST \
+                    $URL \
+                    -H "Content-Type: application/json" \
+                    -H "Authorization: token $GITHUB_TOKEN" \
+                    --data '{ "body": "blah blah" }'
    
             - run: |
                 if [[ $size -gt 600 ]]
