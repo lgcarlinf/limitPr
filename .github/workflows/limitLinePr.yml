@@ -38,7 +38,7 @@ jobs:
                 $URL \
                 -H "Content-Type: application/json" \
                 -H "Authorization: token $GITHUB_TOKEN" \
-                --data '{"body": "'"$body"'"}'  
+                --data '{"body": $body }'  
 
             - run: |
                 if [[ $size -gt 600 ]]
