@@ -42,4 +42,4 @@ jobs:
                 $URL \
                 -H "Content-Type: application/json" \
                 -H "Authorization: token $GITHUB_TOKEN" \
-                --data '{ "body": "#Este es un mensaje\n **deberia estar en negrita** " }'
+                --data '{ "body": "#Este es un mensaje\n **deberia estar en negrita** " }'  
