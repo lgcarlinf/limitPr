@@ -25,13 +25,6 @@ jobs:
                 echo "Total lines changed (note: *.lock files are excluded from this count): "
                 echo $size
 
-            - run: |
-                if [[ $size -gt 600 ]]
-                then
-                    echo "Warning - total lines changed is greater than" 600.
-                    echo "Please consider breaking this PR down."
-                    exit 1
-                fi
             - name: send message to pr
               uses: actions/github-script@v4
               with:
@@ -43,3 +36,11 @@ jobs:
                     repo: context.repo.repo,
                     body: ' #Total lines changed: \n' + process.env.size
                   })
+
+            - run: |
+                if [[ $size -gt 600 ]]
+                then
+                    echo "Warning - total lines changed is greater than" 600.
+                    echo "Please consider breaking this PR down."
+                    exit 1
+                fi
