@@ -32,3 +32,14 @@ jobs:
                     echo "Please consider breaking this PR down."
                     exit 1
                 fi
+            - name: send message to pr
+              uses: actions/github-script@v4
+              with:
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                  github.issues.createComment({
+                    issue_number: context.issue.number,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    body: ' #Total lines changed: \n' + process.env.size
+                  })
