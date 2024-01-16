@@ -37,8 +37,7 @@ jobs:
                 $URL \
                 -H "Content-Type: application/json" \
                 -H "Authorization: token $GITHUB_TOKEN" \
-                --data '{ "body": "# Pull Request de $size Líneas de Código 
-                ¡Hola compañeros de equipo! He creado un Pull Request que contiene un total de $size líneas de código, ¡y estoy emocionado de compartirlo con ustedes!" }'  
+                --data '{ "body": "# Pull Request de $size Líneas de Código \n ¡Hola compañeros de equipo! He creado un Pull Request que contiene un total de $size líneas de código, ¡y estoy emocionado de compartirlo con ustedes!" }'  
 
             - run: |
                 if [[ $size -gt 600 ]]
