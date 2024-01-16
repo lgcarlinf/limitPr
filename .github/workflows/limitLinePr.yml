@@ -29,13 +29,26 @@ jobs:
               env:
                   URL: ${{ github.event.pull_request.comments_url }}
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                  curl \
-                    -X POST \
-                    $URL \
-                    -H "Content-Type: application/json" \
-                    -H "Authorization: token $GITHUB_TOKEN" \
-                    --data '{ "body": "blah blah" }'
+                run: |
+                    if [[ $size -gt 600 ]]
+                    then
+                        echo "Warning - total lines changed is greater than" 600.
+                        echo "Please consider breaking this PR down."
+                        curl -sSL -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" -X POST -d "{\"body\":\"Warning - total lines changed is greater than 600. Please consider breaking this PR down.\"}" $URL
+                    fi
+
+            - name: Fail if PR is too large
+              env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                if: ${{ steps.get_total_lines_changed.outputs.size }}
+                run: |
+                    if [[ $size -gt 600 ]]
+                    then
+                        echo "Warning - total lines changed is greater than" 600.
+                        echo "Please consider breaking this PR down."
+                        exit 1
+                    fi
+
    
             - run: |
                 if [[ $size -gt 600 ]]
