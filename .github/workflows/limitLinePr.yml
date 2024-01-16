@@ -29,9 +29,9 @@ jobs:
 
             - name: send message to pr
               env: 
-                URL : ${{ github.event.pull_request.comments_url }}
+                URL : ${{ github.event.issue.comments_url }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                body: "# Pull Request de $size Líneas de Código \n ¡Hola compañeros de equipo! He creado un Pull Request que contiene un total de $size líneas de código, ¡y estoy emocionado de compartirlo con ustedes!"
+                body: "# Pull Request de $size Líneas de Código \n issue comment url He creado un Pull Request que contiene un total de $size líneas de código, ¡y estoy emocionado de compartirlo con ustedes!"
               run: |
                 curl \
                 -X POST \
