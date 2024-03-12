@@ -3,7 +3,7 @@ on:
     tags:
       - "sandbox*"
     paths:
-      - "/**"
+      - "./"
 
 permissions:
   contents: write
